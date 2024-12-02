@@ -37,7 +37,7 @@ class FetchAllStudentInfo extends ChangeNotifier {
     } catch (e) {
       // Handle errors (e.g., network issues)
       debugPrint("Error fetching user table data: $e");
-      throw Exception("Error fetching user table data.");
+      throw Exception("Click refresh to load data");
     }
   }
 }
