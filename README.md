@@ -1,16 +1,56 @@
-# sinfo
+# s.info
 
-A new Flutter project.
+A  Flutter project using localhost database mysql with php scripts. You can see the php script on branch 2 named phpscripts.
 
 ## Getting Started
+## Installation 🛠️
+For running this project
+## Prerequisites
+- Flutter: Ensure you have Flutter installed & setup on your pc.
+- Database: Xampp mysql used localhost.
 
-This project is a starting point for a Flutter application.
+## Steps🪜
+1. Clone the Repository
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+https://github.com/junayedahamed/s.Info-manager.git
+cd s.Info-manager
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. Create project for resolving and getting all dependencies
+```bash
+   flutter cretae .
+```
+   or
+```bash
+   flutter pub get
+```
+   
+4. Now you can run on your machine using
+```bash
+    flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Usages
+
+1. You can cretae your account here & login here .
+2. you can store your student information in database .
+3. you can update delete and create your information .
+4. you can also do the same as 3 with student the informations.
+
+
+## 🤝Contribution
+
+1. Fork this reposatory
+2. Create new branch
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Make your changes.
+4. Push your branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Create a pull request.
+
+   
