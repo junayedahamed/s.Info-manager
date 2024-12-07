@@ -17,6 +17,7 @@ class UpdateStudentDialogue extends StatelessWidget {
   final TextEditingController updatedid = TextEditingController();
   final TextEditingController updateddept = TextEditingController();
   final UpdateUserService updateUserService = UpdateUserService();
+
   final String name, index;
   final String idnumber;
   final String email, dept;
@@ -83,7 +84,7 @@ class UpdateStudentDialogue extends StatelessWidget {
                     if (updatedname.text.isEmpty) {
                       updatedname.text = name;
                     } else {
-                      updateUserService.updateUser(
+                      updateUserService.updatestudent(
                         context: context,
                         userId: usrinfo['id'].toString(),
                         index: index,

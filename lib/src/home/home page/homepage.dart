@@ -9,19 +9,28 @@ import 'package:sinfo/src/informations/user_info.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
-  // static final db = Db();
 
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
-  final FetchProfiledata fechprof = FetchProfiledata();
-  final AddStudentInDb addStudentInDb = AddStudentInDb();
-  final FetchAllStudentInfo fetchall = FetchAllStudentInfo();
-  final DeleteStudentService deletestudent = DeleteStudentService();
-  final List<Map> value = [];
+  // static final db = Db();
 
+  final FetchProfiledata fechprof = FetchProfiledata();
+
+  final AddStudentInDb addStudentInDb = AddStudentInDb();
+
+  final FetchAllStudentInfo fetchall = FetchAllStudentInfo();
+
+  final DeleteStudentService deletestudent = DeleteStudentService();
+  @override
+  void initState() {
+    super.initState();
+    fetchall.fetchUserTableData(usrinfo['id'].toString());
+  }
+
+  List<Map<String, dynamic>> data = [];
   void refresh() {
     setState(() {
       fetchall.fetchUserTableData(usrinfo['id'].toString());
@@ -42,7 +51,9 @@ class _HomepageState extends State<Homepage> {
           leading: IconButton(
             tooltip: "Refresh",
             onPressed: () {
-              refresh();
+              setState(() {
+                fetchall.fetchUserTableData(usrinfo['id'].toString());
+              });
             },
             icon: const Icon(
               Icons.refresh,
@@ -61,79 +72,80 @@ class _HomepageState extends State<Homepage> {
             ),
           ],
         ),
-        body: RefreshIndicator(
-          onRefresh: () async {
-            refresh();
-          },
-          child: FutureBuilder<List<Map<String, dynamic>>>(
-            future: fetchall.fetchUserTableData(
-              usrinfo['id'].toString(),
-            ),
+        body: ListenableBuilder(
+            listenable: fetchall,
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text("Error: ${snapshot.error}"));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text("No data found."));
-              } else {
-                final List<Map<String, dynamic>> data = snapshot.data!;
-                return ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    final row = data[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 3.0, top: 1),
-                      child: Dismissible(
-                        onDismissed: (direction) {
-                          deletestudent.deleteStudent(
-                            userId: usrinfo['id'].toString(),
-                            itemIndex: row['id'].toString(),
-                          );
-                          refresh();
-                        },
-                        background: Container(
-                          color: Colors.red,
-                          child: const Center(
-                            child: Text(
-                              "Delete",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
+              return FutureBuilder<List<Map<String, dynamic>>>(
+                future: fetchall.fetchUserTableData(
+                  usrinfo['id'].toString(),
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Error: ${snapshot.error}"));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text("No data found."));
+                  } else {
+                    final List<Map<String, dynamic>> data = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        final row = data[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 3.0, top: 1),
+                          child: Dismissible(
+                            onDismissed: (direction) {
+                              deletestudent.deleteStudent(
+                                userId: usrinfo['id'].toString(),
+                                itemIndex: row['id'].toString(),
+                              );
+                              // print("calling");
+                              refresh();
+                              // initState();
+                            },
+                            background: Container(
+                              color: Colors.red,
+                              child: const Center(
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            key: Key(row['id'].toString()),
+                            child: SizedBox(
+                              width: w,
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailsInfo(
+                                        id: row['id'],
+                                        name: row["name"],
+                                        email: row["email"],
+                                        idnumber: row["idnumber"],
+                                        dept: row["dept"],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                tileColor: Colors.blue,
+                                title: Text(row['name'] ?? "No Name"),
+                                subtitle: Text(row['idnumber'] ?? "No Email"),
                               ),
                             ),
                           ),
-                        ),
-                        key: Key(row['id'].toString()),
-                        child: SizedBox(
-                          width: w,
-                          child: ListTile(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => DetailsInfo(
-                                    id: row['id'],
-                                    name: row["name"],
-                                    email: row["email"],
-                                    idnumber: row["idnumber"],
-                                    dept: row["dept"],
-                                  ),
-                                ),
-                              );
-                            },
-                            tileColor: Colors.blue,
-                            title: Text(row['name'] ?? "No Name"),
-                            subtitle: Text(row['idnumber'] ?? "No Email"),
-                          ),
-                        ),
-                      ),
+                        );
+                      },
                     );
-                  },
-                );
-              }
-            },
-          ),
-        ),
+                  }
+                },
+              );
+            }),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             var infos = await showDialog(
@@ -150,7 +162,7 @@ class _HomepageState extends State<Homepage> {
                 email: infos['email'],
                 dept: infos['dept'],
               );
-
+              print("calling2");
               refresh();
             }
           },

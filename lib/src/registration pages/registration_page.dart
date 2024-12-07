@@ -161,22 +161,42 @@ class RegistrationPage extends StatelessWidget {
               ),
             );
           } else {
-            insert.insertRecord(name.text, email.text, password.text, context);
-            loginemail = email.text.toString();
+            if (!email.text.endsWith('@gmail.com')) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Use google mail please.."),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
 
-            name.clear();
-            email.clear();
-            password.clear();
-            confpassword.clear();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const Homepage(),
-              ),
-            );
-            name.clear();
-            email.clear();
-            password.clear();
-            confpassword.clear();
+            if (password.text.length < 8) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content:
+                      Text("Password length should be more tha 8 characther."),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            } else {
+              insert.insertRecord(
+                  name.text, email.text, password.text, context);
+              loginemail = email.text.toString();
+
+              name.clear();
+              email.clear();
+              password.clear();
+              confpassword.clear();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Homepage(),
+                ),
+              );
+              name.clear();
+              email.clear();
+              password.clear();
+              confpassword.clear();
+            }
           }
         },
         child: const Text("Register"),
@@ -380,9 +400,11 @@ class RegistrationPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: SizedBox.expand(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: size > 680 ? pc : mob,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: size > 680 ? pc : mob,
+            ),
           ),
         ),
       ),

@@ -231,8 +231,10 @@ class Loginpage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: SizedBox.expand(
-          child: Column(
-            children: size > 400 ? pc : mobile,
+          child: SingleChildScrollView(
+            child: Column(
+              children: size > 400 ? pc : mobile,
+            ),
           ),
         ),
       ),

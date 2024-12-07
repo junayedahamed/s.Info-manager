@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:sinfo/src/home/home%20page/homepage.dart';
 
 class UpdateUserService {
-  Future<void> updateUser({
+  Future<void> updatestudent({
     required context,
     required String userId,
     required String index,

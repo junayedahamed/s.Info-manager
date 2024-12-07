@@ -8,7 +8,7 @@ import 'package:sinfo/src/home/profile/fetch_profiledata.dart';
 class LoginFunc {
   String value = '';
   final FetchProfiledata fetchProfiledata = FetchProfiledata();
-  final Homepage homepage = const Homepage();
+  // final Homepage homepage = const Homepage();
 
   Future<void> login(String email, String pass, context) async {
     final url = Uri.parse('http://192.168.56.1/practice_api/insert_rec.php');
