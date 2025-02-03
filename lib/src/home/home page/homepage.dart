@@ -96,13 +96,15 @@ class _HomepageState extends State<Homepage> {
                           padding: const EdgeInsets.only(bottom: 3.0, top: 1),
                           child: Dismissible(
                             onDismissed: (direction) {
-                              deletestudent.deleteStudent(
-                                userId: usrinfo['id'].toString(),
-                                itemIndex: row['id'].toString(),
-                              );
-                              // print("calling");
-                              refresh();
-                              // initState();
+                              setState(() {
+                                deletestudent.deleteStudent(
+                                  userId: usrinfo['id'].toString(),
+                                  itemIndex: row['id'].toString(),
+                                );
+                              });
+                              // // print("calling");
+                              // refresh();
+                              // // initState();
                             },
                             background: Container(
                               color: Colors.red,
@@ -162,7 +164,7 @@ class _HomepageState extends State<Homepage> {
                 email: infos['email'],
                 dept: infos['dept'],
               );
-              print("calling2");
+              debugPrint("calling2");
               refresh();
             }
           },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sinfo/src/home/profile/profile.dart';
 import 'package:sinfo/src/theme/theme.dart';
 import 'package:sinfo/src/toggler/togglr.dart';
 
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
         listenable: MyTheme.instance,
         builder: (context, snapshot) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             themeMode: MyTheme.instance.theme,
             showSemanticsDebugger: false,
             darkTheme: ThemeData.dark(),
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: const Togglr(),
+            home: Profile(),
           );
         });
   }
